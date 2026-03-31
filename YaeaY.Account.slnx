@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/YaeaY.Account.Application/YaeaY.Account.Application.csproj" Id="b729ff86-05c6-4ac5-8d52-4a9c519d5af7" />
+    <Project Path="src/YaeaY.Account.Domain/YaeaY.Account.Domain.csproj" Id="04a68061-7e43-4f5d-9ef9-ed2215e87701" />
+    <Project Path="src/YaeaY.Account.Infrastructure/YaeaY.Account.Infrastructure.csproj" Id="19bde8ed-102c-44ca-9864-937484a2728c" />
+    <Project Path="src/YaeaY.Account.Presentation/yaeay.account.presentation.client/yaeay.account.presentation.client.esproj">
+      <Build />
+      <Deploy />
+    </Project>
+    <Project Path="src/YaeaY.Account.Presentation/YaeaY.Account.Presentation.Server/YaeaY.Account.Presentation.Server.csproj" Id="c0cd471d-061b-4b49-b26d-57e62a52aa2d" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/YaeaY.Account.Domain.UnitTests/YaeaY.Account.Domain.UnitTests.csproj" Id="d7717e91-dc57-473b-a909-fe84b2a3b78f" />
+  </Folder>
+</Solution>

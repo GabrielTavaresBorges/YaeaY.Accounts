@@ -1,0 +1,80 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using YaeaY.Account.Domain.Entities.UserPhones;
+
+namespace YaeaY.Account.Infrastructure.Data.Mappings.UserPhones;
+
+public sealed class UserPhonesMap : IEntityTypeConfiguration<UserPhone>
+{
+    public void Configure(EntityTypeBuilder<UserPhone> builder)
+    {
+        builder.ToTable("UserPhones");
+        builder.HasKey(h => h.Id);
+
+        // === UserId ===
+        builder.Property<Guid>("UserId")
+            .HasColumnName("UserId")
+            .IsRequired();
+        builder.HasIndex("UserId");
+
+        // ===== CallingCode =====
+        builder.Property(p => p.CallingCode)
+            .HasColumnName("CallingCode")
+            .HasMaxLength(6)
+            .IsRequired();
+
+        // ===== RegionCode =====
+        builder.Property(p => p.RegionCode)
+            .HasColumnName("RegionCode")
+            .HasMaxLength(2)
+            .IsRequired();
+
+        // ===== AreaCode =====
+        builder.Property(p => p.AreaCode)
+            .HasColumnName("AreaCode")
+            .HasMaxLength(10);
+
+        // ===== PhoneType =====
+        builder.Property(p => p.PhoneType)
+            .HasColumnName("PhoneType")
+            .HasConversion<string>()
+            .HasMaxLength(50)
+            .IsRequired();
+
+        // ===== E164 =====
+        builder.Property(p => p.E164)
+            .HasColumnName("E164")
+            .HasMaxLength(30)
+            .IsRequired();
+
+        // ===== PhoneNumber =====
+        builder.Property(p => p.PhoneNumber)
+            .HasColumnName("PhoneNumber")
+            .HasMaxLength(30)
+            .IsRequired();
+
+        // ===== IsVerified =====
+        builder.Property(p => p.IsVerified)
+            .HasColumnName("IsVerified")
+            .IsRequired();
+
+        // ===== VerifiedAt =====
+        builder.Property(p => p.VerifiedAt)
+            .HasColumnName("VerifiedAt")
+            .HasColumnType("datetimeoffset");
+
+        // ===== IsPrimary =====
+        builder.Property(p => p.IsPrimary)
+            .HasColumnName("IsPrimary")
+            .IsRequired();
+
+        // ===== CreatedAt =====
+        builder.Property(p => p.CreatedAt)
+            .HasColumnName("CreatedAt")
+            .HasColumnType("datetimeoffset")
+            .IsRequired();
+
+        // Evita duplicar o mesmo número para o mesmo usuário
+        builder.HasIndex("UserId", "E164").IsUnique();
+    }
+}

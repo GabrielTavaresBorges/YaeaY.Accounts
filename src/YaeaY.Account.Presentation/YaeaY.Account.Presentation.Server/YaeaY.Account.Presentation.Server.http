@@ -1,0 +1,6 @@
+@YaeaY.Account.Presentation.Server_HostAddress = http://localhost:5281
+
+GET {{YaeaY.Account.Presentation.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
