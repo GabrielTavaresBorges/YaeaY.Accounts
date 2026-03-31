@@ -172,7 +172,9 @@ public class User : Entity, IAggregateRoot
     public void ChangePasswordHash(PasswordHash passwordHash)
     {
         if (passwordHash is null)
-            throw new DomainException(message: "Password hash cannot be null.", identifier: "PASSWORD_HASH_NULL");
+            throw new DomainException(
+                message: "Password hash cannot be null.",
+                identifier: "PASSWORD_HASH_NULL");
 
         _passwordHash = passwordHash;
     }
@@ -180,7 +182,9 @@ public class User : Entity, IAggregateRoot
     public void ChangeUserName(UserName userName)
     {
         if (userName is null)
-            throw new DomainException(message: "UserName cannot be null.", identifier: "USER_NAME_NULL");
+            throw new DomainException(
+                message: "UserName cannot be null.",
+                identifier: "USER_NAME_NULL");
 
         _userName = userName;
     }
@@ -188,7 +192,9 @@ public class User : Entity, IAggregateRoot
     public void ChangeBirthDate(BirthDate birthDate)
     {
         if (birthDate is null)
-            throw new DomainException(message: "Birth date cannot be null.", identifier: "BIRTH_DATE_NULL");
+            throw new DomainException(
+                message: "Birth date cannot be null.",
+                identifier: "BIRTH_DATE_NULL");
 
         _birthDate = birthDate;
     }

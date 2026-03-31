@@ -1,8 +1,414 @@
-﻿namespace YaeaY.Account.Domain.UnitTests.Entities.AggregateRoots.Users;
+﻿using FluentAssertions;
+using YaeaY.Account.Domain.Abstraction.Exceptions;
+using YaeaY.Account.Domain.Entities.AggregateRoots.Users;
+using YaeaY.Account.Domain.Entities.UserPhones;
+using YaeaY.Account.Domain.Enumerators;
+using YaeaY.Account.Domain.ValueObjects.Dates;
+using YaeaY.Account.Domain.ValueObjects.Emails;
+using YaeaY.Account.Domain.ValueObjects.Names;
+using YaeaY.Account.Domain.ValueObjects.Securities;
+
+namespace YaeaY.Account.Domain.UnitTests.Entities.AggregateRoots.Users;
 
 public class UserCreateTets
 {
     // IsFailure
 
+    [Fact]
+    public void Create_WhenEmailIsNull_ShouldThrowDomainException()
+    {
+        // Arrange
+
+        Email emailInvalid = null!;
+
+        var passwordHashTest = "hashed_password_test";
+        var passwordHashResult = PasswordHash.Create(passwordHashTest);
+        var passwordHash = passwordHashResult.Value;
+
+        var userNameTest = "User Name Test";
+        var userNameResult = UserName.Create(userNameTest);
+        var userName = userNameResult.Value;
+
+        var gender = Gender.Male;
+
+        var birthDateTest = new DateOnly(2026, 1, 1);
+        var birthDateResult = BirthDate.Create(birthDateTest);
+        var birthDate = birthDateResult.Value;
+
+        var callingCode = "+55";
+        var regionCode = "BR";
+        var areaCode = "48";
+        var phoneType = PhoneType.Mobile;
+        var phoneNumber = "12345678";
+        var e164 = "+554812345678";
+        var isPrimary = true;
+
+        var initialPhone = UserPhone.Create(
+            callingCode,
+            regionCode,
+            areaCode,
+            phoneType,
+            phoneNumber,
+            e164,
+            isPrimary);
+
+        var phone = initialPhone;
+
+        // Act
+
+        Action act = () => User.Create(
+            emailInvalid,
+            passwordHash,
+            userName,
+            birthDate,
+            gender,
+            phone);
+
+        // Assert
+
+        var exception = act.Should().Throw<DomainException>().Which;
+        exception.Identifier.Should().Be("EMAIL_NULL");
+        exception.Message.Should().Be("Email Address cannot be null.");
+    }
+
+    [Fact]
+    public void Create_WhenPasswordHashIsNull_ShouldThrowDomainException()
+    {
+        // Arrange
+
+        var emailAddressTest = "example@domain.com";
+        var emailResult = Email.Create(emailAddressTest);
+        var email = emailResult.Value;
+
+        PasswordHash passwordHashInvalid = null!;
+
+        var userNameTest = "User Name Test";
+        var userNameResult = UserName.Create(userNameTest);
+        var userName = userNameResult.Value;
+
+        var gender = Gender.Male;
+
+        var birthDateTest = new DateOnly(2026, 1, 1);
+        var birthDateResult = BirthDate.Create(birthDateTest);
+        var birthDate = birthDateResult.Value;
+
+        var callingCode = "+55";
+        var regionCode = "BR";
+        var areaCode = "48";
+        var phoneType = PhoneType.Mobile;
+        var phoneNumber = "12345678";
+        var e164 = "+554812345678";
+        var isPrimary = true;
+
+        var initialPhone = UserPhone.Create(
+            callingCode,
+            regionCode,
+            areaCode,
+            phoneType,
+            phoneNumber,
+            e164,
+            isPrimary);
+
+        var phone = initialPhone;
+
+        // Act
+
+        Action act = () => User.Create(
+            email,
+            passwordHashInvalid,
+            userName,
+            birthDate,
+            gender,
+            phone);
+
+        // Assert
+
+        var exception = act.Should().Throw<DomainException>().Which;
+        exception.Identifier.Should().Be("PASSWORD_HASH_NULL");
+        exception.Message.Should().Be("Password cannot be null.");
+    }
+
+    [Fact]
+    public void Create_WhenUserNameIsNull_ShouldThrowDomainException()
+    {
+        // Arrange
+
+        var emailAddressTest = "example@domain.com";
+        var emailResult = Email.Create(emailAddressTest);
+        var email = emailResult.Value;
+
+        var passwordHashTest = "hashed_password_test";
+        var passwordHashResult = PasswordHash.Create(passwordHashTest);
+        var passwordHash = passwordHashResult.Value;
+
+        UserName userNameInvalid = null!;
+
+        var gender = Gender.Male;
+
+        var birthDateTest = new DateOnly(2026, 1, 1);
+        var birthDateResult = BirthDate.Create(birthDateTest);
+        var birthDate = birthDateResult.Value;
+
+        var callingCode = "+55";
+        var regionCode = "BR";
+        var areaCode = "48";
+        var phoneType = PhoneType.Mobile;
+        var phoneNumber = "12345678";
+        var e164 = "+554812345678";
+        var isPrimary = true;
+
+        var initialPhone = UserPhone.Create(
+            callingCode,
+            regionCode,
+            areaCode,
+            phoneType,
+            phoneNumber,
+            e164,
+            isPrimary);
+
+        var phone = initialPhone;
+
+        // Act
+
+        Action act = () => User.Create(
+            email,
+            passwordHash,
+            userNameInvalid,
+            birthDate,
+            gender,
+            phone);
+
+        // Assert
+
+        var exception = act.Should().Throw<DomainException>().Which;
+        exception.Identifier.Should().Be("USER_NAME_NULL");
+        exception.Message.Should().Be("UserName cannot be null.");
+    }
+
+    [Fact]
+    public void Create_WhenBirthDateIsNull_ShouldThrowDomainException()
+    {
+        // Arrange
+
+        var emailAddressTest = "example@domain.com";
+        var emailResult = Email.Create(emailAddressTest);
+        var email = emailResult.Value;
+
+        var passwordHashTest = "hashed_password_test";
+        var passwordHashResult = PasswordHash.Create(passwordHashTest);
+        var passwordHash = passwordHashResult.Value;
+
+        var userNameTest = "User Name Test";
+        var userNameResult = UserName.Create(userNameTest);
+        var userName = userNameResult.Value;
+
+        var gender = Gender.Male;
+
+        BirthDate birthDateInvalid = null!;
+
+        var callingCode = "+55";
+        var regionCode = "BR";
+        var areaCode = "48";
+        var phoneType = PhoneType.Mobile;
+        var phoneNumber = "12345678";
+        var e164 = "+554812345678";
+        var isPrimary = true;
+
+        var initialPhone = UserPhone.Create(
+            callingCode,
+            regionCode,
+            areaCode,
+            phoneType,
+            phoneNumber,
+            e164,
+            isPrimary);
+
+        var phone = initialPhone;
+
+        // Act
+
+        Action act = () => User.Create(
+            email,
+            passwordHash,
+            userName,
+            birthDateInvalid,
+            gender,
+            phone);
+
+        // Assert
+
+        var exception = act.Should().Throw<DomainException>().Which;
+        exception.Identifier.Should().Be("BIRTH_DATE_NULL");
+        exception.Message.Should().Be("Birth date cannot be null.");
+    }
+
+    [Fact]
+    public void Create_WhenGenderIsInvalid_ShouldThrowDomainException()
+    {
+        // Arrange
+
+        var emailAddressTest = "example@domain.com";
+        var emailResult = Email.Create(emailAddressTest);
+        var email = emailResult.Value;
+
+        var passwordHashTest = "hashed_password_test";
+        var passwordHashResult = PasswordHash.Create(passwordHashTest);
+        var passwordHash = passwordHashResult.Value;
+
+        var userNameTest = "User Name Test";
+        var userNameResult = UserName.Create(userNameTest);
+        var userName = userNameResult.Value;
+
+        var genderInvalid = Gender.Unknown;
+
+        var birthDateTest = new DateOnly(2026, 1, 1);
+        var birthDateResult = BirthDate.Create(birthDateTest);
+        var birthDate = birthDateResult.Value;
+
+        var callingCode = "+55";
+        var regionCode = "BR";
+        var areaCode = "48";
+        var phoneType = PhoneType.Mobile;
+        var phoneNumber = "12345678";
+        var e164 = "+554812345678";
+        var isPrimary = true;
+
+        var initialPhone = UserPhone.Create(
+            callingCode,
+            regionCode,
+            areaCode,
+            phoneType,
+            phoneNumber,
+            e164,
+            isPrimary);
+
+        var phone = initialPhone;
+
+        // Act
+
+        Action act = () => User.Create(
+            email,
+            passwordHash,
+            userName,
+            birthDate,
+            genderInvalid,
+            phone);
+
+        // Assert
+
+        var exception = act.Should().Throw<DomainException>().Which;
+        exception.Identifier.Should().Be("GENDER_UNKNOWN");
+        exception.Message.Should().Be("Gender cannot be unknown.");
+    }
+
+    [Fact]
+    public void Create_WhenInitialPhoneIsNull_ShouldThrowDomainException()
+    {
+        // Arrange
+
+        var emailAddressTest = "example@domain.com";
+        var emailResult = Email.Create(emailAddressTest);
+        var email = emailResult.Value;
+
+        var passwordHashTest = "hashed_password_test";
+        var passwordHashResult = PasswordHash.Create(passwordHashTest);
+        var passwordHash = passwordHashResult.Value;
+
+        var userNameTest = "User Name Test";
+        var userNameResult = UserName.Create(userNameTest);
+        var userName = userNameResult.Value;
+
+        var gender= Gender.Male;
+
+        var birthDateTest = new DateOnly(2026, 1, 1);
+        var birthDateResult = BirthDate.Create(birthDateTest);
+        var birthDate = birthDateResult.Value;
+
+        var callingCode = "+55";
+        var regionCode = "BR";
+        var areaCode = "48";
+        var phoneType = PhoneType.Mobile;
+        var phoneNumber = "12345678";
+        var e164 = "+554812345678";
+        var isPrimary = true;
+
+        UserPhone userPhoneInvalid = null!;
+
+        // Act
+
+        Action act = () => User.Create(
+            email,
+            passwordHash,
+            userName,
+            birthDate,
+            gender,
+            userPhoneInvalid);
+
+        // Assert
+
+        var exception = act.Should().Throw<DomainException>().Which;
+        exception.Identifier.Should().Be("INITIAL_PHONE_NULL");
+        exception.Message.Should().Be("Initial phone cannot be null.");
+    }
+
     // IsSuccess
+
+    [Fact]
+    public void Create_WhenAllUserDataIsValid_ShouldSucceed()
+    {
+        // Arrange
+
+        var emailAddressTest = "example@domain.com";
+        var emailResult = Email.Create(emailAddressTest);
+        var email = emailResult.Value;
+
+        var passwordHashTest = "hashed_password_test";
+        var passwordHashResult = PasswordHash.Create(passwordHashTest);
+        var passwordHash = passwordHashResult.Value;
+
+        var userNameTest = "User Name Test";
+        var userNameResult = UserName.Create(userNameTest);
+        var userName = userNameResult.Value;
+
+        var gender = Gender.Male;
+
+        var birthDateTest = new DateOnly(2026, 1, 1);
+        var birthDateResult = BirthDate.Create(birthDateTest);
+        var birthDate = birthDateResult.Value;
+
+        var callingCode = "+55";
+        var regionCode = "BR";
+        var areaCode = "48";
+        var phoneType = PhoneType.Mobile;
+        var phoneNumber = "12345678";
+        var e164 = "+554812345678";
+        var isPrimary = true;
+
+        var initialPhone = UserPhone.Create(
+            callingCode,
+            regionCode,
+            areaCode,
+            phoneType,
+            phoneNumber,
+            e164,
+            isPrimary);
+
+        var phone = initialPhone;
+
+        // Act
+
+        var result = User.Create(
+            email,
+            passwordHash,
+            userName,
+            birthDate,
+            gender,
+            phone);
+
+        // Assert
+
+        result.Value.Should().NotBeNull();
+        result.IsSuccess.Should().BeTrue();
+        result.IsFailure.Should().BeFalse();
+    }
 }
