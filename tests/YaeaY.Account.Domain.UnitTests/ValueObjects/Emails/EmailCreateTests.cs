@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using YaeaY.Account.Domain.ValueObjects.Emails;
 
-namespace YaeaY.Account.Domain.UnitTests.ValueObjects.EmailsTests;
+namespace YaeaY.Account.Domain.UnitTests.ValueObjects.Emails;
 
 public class EmailCreateTests
 {
