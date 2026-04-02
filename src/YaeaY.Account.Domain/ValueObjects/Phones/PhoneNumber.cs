@@ -18,35 +18,58 @@ public sealed record PhoneNumber
     private PhoneNumber(CountryCallingCode ddi, PhoneType phoneType, string number)
     {
         _ddi = ddi;
+        _phoneType = phoneType;
         _number = number;
         _e164 = $"+{(int)ddi}{number}";
     }
 
     public static Result<PhoneNumber> Create(CountryCallingCode ddi, PhoneType type, string inputNumber)
     {
+        var validatedPhoneNumber = ValidatePhoneNumber(ddi, type, inputNumber);
+
+        if (validatedPhoneNumber.IsFailure)
+        {
+            return Result<PhoneNumber>.Failure(validatedPhoneNumber.Error);
+        }
+
+        var phoneNumber = new PhoneNumber(ddi, type, validatedPhoneNumber.Value);
+
+        return Result<PhoneNumber>.Success(phoneNumber);
+    }
+
+    private static Result<string> ValidatePhoneNumber(CountryCallingCode ddi, PhoneType type, string inputNumber)
+    {
         if (type == PhoneType.Unknown)
-            return Result<PhoneNumber>.Failure(new Error(
+        {
+            return Result<string>.Failure(new Error(
                 Identifier: "PHONE_TYPE_UNKNOWN",
                 Message: "Phone type cannot be unknown."));
+        }
 
         if (string.IsNullOrWhiteSpace(inputNumber))
-            return Result<PhoneNumber>.Failure(new Error(
-                Identifier: "PHONE_EMPTY",
+        {
+            return Result<string>.Failure(new Error(
+                Identifier: "PHONE_NULL_EMPTY_WHITE_SPACE",
                 Message: "Phone number cannot be empty."));
+        }
 
         // Normalização simples: manter apenas dígitos do número local (sem +, sem DDI)
         var digits = new string(inputNumber.Where(char.IsDigit).ToArray());
         if (digits.Length == 0)
-            return Result<PhoneNumber>.Failure(new Error(
+        {
+            return Result<string>.Failure(new Error(
                 Identifier: "PHONE_INVALID",
                 Message: "Phone number must contain digits."));
+        }
 
         // Validação mínima por país (bem simples; depois você troca por IPhoneRules)
         var validation = ValidateByCountry(ddi, type, digits);
         if (validation.IsFailure)
-            return Result<PhoneNumber>.Failure(validation.Error);
+        {
+            return Result<string>.Failure(validation.Error);
+        }        
 
-        return Result<PhoneNumber>.Success(new PhoneNumber(ddi, type, digits));
+        return Result<string>.Success(digits);
     }
 
     private static Result<bool> ValidateByCountry(CountryCallingCode ddi, PhoneType type, string digits)

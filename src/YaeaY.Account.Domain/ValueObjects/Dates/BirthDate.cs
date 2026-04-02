@@ -13,7 +13,7 @@ public sealed record BirthDate
 
     public static Result<BirthDate> Create(DateOnly date)
     {
-        var validatedBirthDate = Validate(date);
+        var validatedBirthDate = ValidateBirthDate(date);
 
         if (validatedBirthDate.IsFailure)
             return Result<BirthDate>.Failure(validatedBirthDate.Error);
@@ -21,7 +21,7 @@ public sealed record BirthDate
         return Result<BirthDate>.Success(new BirthDate(validatedBirthDate.Value));
     }
 
-    private static Result<DateOnly> Validate(DateOnly date)
+    private static Result<DateOnly> ValidateBirthDate(DateOnly date)
     {
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
 
