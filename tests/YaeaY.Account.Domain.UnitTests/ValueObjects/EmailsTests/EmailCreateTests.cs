@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using YaeaY.Account.Domain.ValueObjects.Emails;
 
-namespace YaeaY.Account.Domain.UnitTests.ValueObjects.Emails;
+namespace YaeaY.Account.Domain.UnitTests.ValueObjects.EmailsTests;
 
 public class EmailCreateTests
 {
@@ -11,12 +11,15 @@ public class EmailCreateTests
     public void Create_WhenEmailIsNull_ShouldFailure()
     {
         // Arrange
+
         string emailAddress = null!;
 
         // Act
+
         var result = Email.Create(emailAddress);
 
         // Assert
+
         result.IsFailure.Should().BeTrue();
         result.Error.Identifier.Should().Be("EMAIL_NULL_EMPTY");
         result.Error.Message.Should().Be("Email is required. " +
@@ -27,12 +30,15 @@ public class EmailCreateTests
     public void Create_WhenEmailContainsWhiteSpace_ShouldFailure()
     {
         // Arrange
+
         string emailAddress = " ";
 
         // Act
+
         var result = Email.Create(emailAddress);
 
         // Assert
+
         result.IsFailure.Should().BeTrue();
         result.Error.Identifier.Should().Be("EMAIL_NULL_EMPTY");
         result.Error.Message.Should().Be("Email is required. " +
@@ -43,12 +49,15 @@ public class EmailCreateTests
     public void Create_WhenEmailIsTooLong_ShouldFailure()
     {
         // Arrange
+
         string emailAddress = new string('a', 255) + "@example.com";
 
         // Act
+
         var result = Email.Create(emailAddress);
 
         // Assert
+
         result.IsFailure.Should().BeTrue();
         result.Error.Identifier.Should().Be("EMAIL_TOO_LONG");
         result.Error.Message.Should().Be(
@@ -61,12 +70,15 @@ public class EmailCreateTests
     public void Create_WhenEmailFormatIsInvalid_ShouldFailure()
     {
         // Arrange
+
         string emailAddress = "invalid-email";
 
         // Act
+
         var result = Email.Create(emailAddress);
 
         // Assert
+
         result.IsFailure.Should().BeTrue();
         result.Error.Identifier.Should().Be("EMAIL_INVALID_FORMAT");
         result.Error.Message.Should().Be(
@@ -81,12 +93,15 @@ public class EmailCreateTests
     public void Create_WhenEmailIsValid_ShouldSucceed()
     {
         // Arrange
+
         string emailAddress = "example@domain.com";
 
         // Act
+
         var result = Email.Create(emailAddress);
 
         // Assert
+
         result.IsSuccess.Should().BeTrue();
         result.IsFailure.Should().BeFalse();
         result.Value.Should().NotBeNull();
@@ -97,12 +112,15 @@ public class EmailCreateTests
     public void Create_WhenEmailHasLeadingOrTrailingSpaces_ShouldSucceed()
     {
         // Arrange
+
         string emailAddress = "  example@domain.com  ";
 
         // Act
+
         var result = Email.Create(emailAddress);
 
         // Assert
+
         result.IsSuccess.Should().BeTrue();
         result.Value.EmailAddress.Should().Be("example@domain.com");
     }
