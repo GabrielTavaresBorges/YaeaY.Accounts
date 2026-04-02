@@ -2,7 +2,7 @@
 
 namespace YaeaY.Account.Domain.ValueObjects.Documents;
 
-public sealed record Cpf
+public sealed partial record Cpf
 {
     public string Number { get; }
 

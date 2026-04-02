@@ -8,7 +8,7 @@ using YaeaY.Account.Domain.ValueObjects.Emails;
 using YaeaY.Account.Domain.ValueObjects.Names;
 using YaeaY.Account.Domain.ValueObjects.Securities;
 
-namespace YaeaY.Account.Domain.UnitTests.Entities.AggregateRoots.Users;
+namespace YaeaY.Account.Domain.UnitTests.Entities.AggregateRoots.UsersTests;
 
 public class UserCreateTets
 {

@@ -26,7 +26,7 @@ public sealed record UserName
         if (string.IsNullOrWhiteSpace(name))
         {
             return Result<string>.Failure(new Error(
-             Identifier: "USER_NAME_EMPTY",
+             Identifier: "USER_NAME_NULL_EMPTY",
              Message: "Name cannot be null or empty."));
         }
 
