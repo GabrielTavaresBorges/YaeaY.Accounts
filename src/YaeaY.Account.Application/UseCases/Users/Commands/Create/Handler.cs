@@ -43,11 +43,11 @@ public sealed class Handler : IRequestHandler<Command, Result<Response>>
                 return Result<Response>.Failure(emailResult.Error);
             }
 
-            var plainPasswordResult = PlainPassword.Create(command.Password);
-            if (plainPasswordResult.IsFailure)
-                return Result<Response>.Failure(plainPasswordResult.Error);
+            var passwordPlainTextResult = PasswordPlainText.Create(command.Password);
+            if (passwordPlainTextResult.IsFailure)
+                return Result<Response>.Failure(passwordPlainTextResult.Error);
 
-            var hashed = _passwordHasher.Hash(plainPasswordResult.Value.Password);
+            var hashed = _passwordHasher.Hash(passwordPlainTextResult.Value.Password);
 
             var passwordHashResult = PasswordHash.Create(hashed);
             if (passwordHashResult.IsFailure)
