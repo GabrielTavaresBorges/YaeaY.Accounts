@@ -4,11 +4,13 @@ namespace YaeaY.Account.Domain.ValueObjects.Names;
 
 public sealed record UserName
 {
-    public string Name { get; }
+    private string _name = string.Empty;
+
+    public string Name => _name;
 
     private UserName(string name)
     {
-        Name = name;
+        _name = name;
     }
 
     public static Result<UserName> Create(string name)
@@ -18,7 +20,9 @@ public sealed record UserName
         if (validatedName.IsFailure)
             return Result<UserName>.Failure(validatedName.Error);
 
-        return Result<UserName>.Success(new UserName(validatedName.Value));
+        var userName = new UserName(validatedName.Value);
+
+        return Result<UserName>.Success(userName);
     }
 
     private static Result<string> ValidateName(string name)
@@ -26,8 +30,8 @@ public sealed record UserName
         if (string.IsNullOrWhiteSpace(name))
         {
             return Result<string>.Failure(new Error(
-             Identifier: "USER_NAME_NULL_EMPTY",
-             Message: "Name cannot be null or empty."));
+             Identifier: "USER_NAME_NULL_EMPTY_WHITE_SPACE",
+             Message: "Name cannot be null, empty or white space."));
         }
 
         name = name.Trim();
