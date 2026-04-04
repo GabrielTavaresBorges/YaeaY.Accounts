@@ -5,11 +5,13 @@ namespace YaeaY.Account.Domain.ValueObjects.Emails;
 
 public sealed partial record Email
 {
-    public string EmailAddress { get; }
+    private string _emailAddress = string.Empty;
+
+    public string EmailAddress => _emailAddress;
 
     private Email(string emailAddress)
     {
-        EmailAddress = emailAddress;
+        _emailAddress = emailAddress;
     }
 
     public static Result<Email> Create(string emailAddress)
@@ -17,9 +19,7 @@ public sealed partial record Email
         var validatedEmail = ValidateEmail(emailAddress);
 
         if (validatedEmail.IsFailure)
-        {
-            return Result<Email>.Failure(validatedEmail.Error);
-        }
+            return Result<Email>.Failure(validatedEmail.Error);        
 
         var email = new Email(validatedEmail.Value);
 
@@ -31,7 +31,7 @@ public sealed partial record Email
         if (string.IsNullOrWhiteSpace(email))
         {
             return Result<string>.Failure(new Error(
-                Identifier: "EMAIL_NULL_EMPTY",
+                Identifier: "EMAIL_NULL_EMPTY_WHITE_SPACE",
                 Message: "Email is required. " +
                          "Please provide an address in the format 'example@domain.com'."));
         }

@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using YaeaY.Account.Domain.ValueObjects.Dates;
 
-namespace YaeaY.Account.Domain.UnitTests.ValueObjects.Dates;
+namespace YaeaY.Account.Domain.UnitTests.ValueObjects.Dates.BirthDateTests;
 
 public class BirthDateCreateTests
 {

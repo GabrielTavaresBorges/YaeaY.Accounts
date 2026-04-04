@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using YaeaY.Account.Domain.ValueObjects.Names;
 
-namespace YaeaY.Account.Domain.UnitTests.ValueObjects.Names;
+namespace YaeaY.Account.Domain.UnitTests.ValueObjects.Names.UserNameTests;
 
 public class UserNameCreateTests
 {
@@ -21,8 +21,44 @@ public class UserNameCreateTests
         // Assert
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Identifier.Should().Be("USER_NAME_NULL_EMPTY");
-        result.Error.Message.Should().Be("Name cannot be null or empty.");
+        result.Error.Identifier.Should().Be("USER_NAME_NULL_EMPTY_WHITE_SPACE");
+        result.Error.Message.Should().Be("Name cannot be null, empty or white space.");
+    }
+
+    [Fact]
+    public void Create_WhenUserNameIsEmpty_ShouldFailure()
+    {
+        // Arrange
+
+        string userName = string.Empty;
+
+        // Act
+
+        var result = UserName.Create(userName);
+
+        // Assert
+
+        result.IsFailure.Should().BeTrue();
+        result.Error.Identifier.Should().Be("USER_NAME_NULL_EMPTY_WHITE_SPACE");
+        result.Error.Message.Should().Be("Name cannot be null, empty or white space.");
+    }
+
+    [Fact]
+    public void Create_WhenUserNameContainsWhiteSpace_ShouldFailure()
+    {
+        // Arrange
+
+        string userName = " ";
+
+        // Act
+
+        var result = UserName.Create(userName);
+
+        // Assert
+
+        result.IsFailure.Should().BeTrue();
+        result.Error.Identifier.Should().Be("USER_NAME_NULL_EMPTY_WHITE_SPACE");
+        result.Error.Message.Should().Be("Name cannot be null, empty or white space.");
     }
 
     [Fact]

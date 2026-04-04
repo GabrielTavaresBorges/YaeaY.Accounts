@@ -4,21 +4,25 @@ namespace YaeaY.Account.Domain.ValueObjects.Dates;
 
 public sealed record BirthDate
 {
-    public DateOnly Date { get; private init; }
+    private DateOnly _date;
+
+    public DateOnly Date => _date;
 
     private BirthDate(DateOnly date)
     {
-        Date = date;
+        _date = date;
     }
 
     public static Result<BirthDate> Create(DateOnly date)
     {
         var validatedBirthDate = ValidateBirthDate(date);
 
-        if (validatedBirthDate.IsFailure)
+        if (validatedBirthDate.IsFailure)        
             return Result<BirthDate>.Failure(validatedBirthDate.Error);
+          
+        var birthDate = new BirthDate(validatedBirthDate.Value);
 
-        return Result<BirthDate>.Success(new BirthDate(validatedBirthDate.Value));
+        return Result<BirthDate>.Success(birthDate);
     }
 
     private static Result<DateOnly> ValidateBirthDate(DateOnly date)

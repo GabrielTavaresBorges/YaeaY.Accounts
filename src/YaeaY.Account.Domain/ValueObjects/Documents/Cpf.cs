@@ -4,13 +4,15 @@ namespace YaeaY.Account.Domain.ValueObjects.Documents;
 
 public sealed partial record Cpf
 {
-    public string Number { get; }
+    private string _number = string.Empty;
 
-    private Cpf() { Number = null!; }
+    public string Number => _number;
+
+    private Cpf() { }
 
     private Cpf(string number)
     {
-        Number = number;
+        _number = number;
     }
 
     public static Result<Cpf> Create(string number)
@@ -20,7 +22,9 @@ public sealed partial record Cpf
         if (validatedNumber.IsFailure)
             return Result<Cpf>.Failure(validatedNumber.Error);
 
-        return Result<Cpf>.Success(new Cpf(validatedNumber.Value));
+        var cpf = new Cpf(validatedNumber.Value);
+
+        return Result<Cpf>.Success(cpf);
     }
 
     private static Result<string> ValidateNumber(string number)
@@ -28,8 +32,8 @@ public sealed partial record Cpf
         if (string.IsNullOrWhiteSpace(number))
         {
             return Result<string>.Failure(new Error(
-             Identifier: "CPF_NUMBER_EMPTY",
-             Message: "CPF number cannot be null or empty."));
+             Identifier: "CPF_NUMBER_NULL_EMPTY_WHITE_SPACE",
+             Message: "CPF number cannot be null, empty or white space."));
         }
 
         var onlyNumbers = ExtractNumbers(number);

@@ -2,7 +2,7 @@
 using YaeaY.Account.Domain.Enumerators;
 using YaeaY.Account.Domain.ValueObjects.Phones;
 
-namespace YaeaY.Account.Domain.UnitTests.ValueObjects.Phones;
+namespace YaeaY.Account.Domain.UnitTests.ValueObjects.Phones.PhoneNumberTests;
 
 public class PhoneNumberCreateTests
 {
@@ -45,7 +45,7 @@ public class PhoneNumberCreateTests
 
         result.IsFailure.Should().BeTrue();
         result.Error.Identifier.Should().Be("PHONE_NULL_EMPTY_WHITE_SPACE");
-        result.Error.Message.Should().Be("Phone number cannot be empty.");
+        result.Error.Message.Should().Be("Phone number cannot be null, empty or white space.");
     }
 
     [Fact]
@@ -65,11 +65,11 @@ public class PhoneNumberCreateTests
 
         result.IsFailure.Should().BeTrue();
         result.Error.Identifier.Should().Be("PHONE_NULL_EMPTY_WHITE_SPACE");
-        result.Error.Message.Should().Be("Phone number cannot be empty.");
+        result.Error.Message.Should().Be("Phone number cannot be null, empty or white space.");
     }
 
     [Fact]
-    public void Create_WhenPhoneNumberIsWhiteSpace_ShouldFailure()
+    public void Create_WhenPhoneNumberContainsWhiteSpace_ShouldFailure()
     {
         // Arrange
 
@@ -85,7 +85,7 @@ public class PhoneNumberCreateTests
 
         result.IsFailure.Should().BeTrue();
         result.Error.Identifier.Should().Be("PHONE_NULL_EMPTY_WHITE_SPACE");
-        result.Error.Message.Should().Be("Phone number cannot be empty.");
+        result.Error.Message.Should().Be("Phone number cannot be null, empty or white space.");
     }
 
     [Fact]

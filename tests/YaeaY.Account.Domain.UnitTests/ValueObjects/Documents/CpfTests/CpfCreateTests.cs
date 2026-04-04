@@ -21,8 +21,26 @@ public class CpfCreateTests
         // Assert              
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Identifier.Should().Be("CPF_NUMBER_EMPTY");
-        result.Error.Message.Should().Be("CPF number cannot be null or empty.");
+        result.Error.Identifier.Should().Be("CPF_NUMBER_NULL_EMPTY_WHITE_SPACE");
+        result.Error.Message.Should().Be("CPF number cannot be null, empty or white space.");
+    }
+
+    [Fact]
+    public void Create_WhenCpfIsEmpty_ShouldFailure()
+    {
+        // Arrange
+
+        string cfpNumber = string.Empty;
+
+        // Act
+
+        var result = Cpf.Create(cfpNumber);
+
+        // Assert              
+
+        result.IsFailure.Should().BeTrue();
+        result.Error.Identifier.Should().Be("CPF_NUMBER_NULL_EMPTY_WHITE_SPACE");
+        result.Error.Message.Should().Be("CPF number cannot be null, empty or white space.");
     }
 
     [Fact]
@@ -39,8 +57,8 @@ public class CpfCreateTests
         // Assert              
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Identifier.Should().Be("CPF_NUMBER_EMPTY");
-        result.Error.Message.Should().Be("CPF number cannot be null or empty.");
+        result.Error.Identifier.Should().Be("CPF_NUMBER_NULL_EMPTY_WHITE_SPACE");
+        result.Error.Message.Should().Be("CPF number cannot be null, empty or white space.");
     }
 
     [Fact]

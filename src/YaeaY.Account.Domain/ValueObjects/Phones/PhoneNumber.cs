@@ -12,7 +12,7 @@ public sealed record PhoneNumber
 
     public CountryCallingCode Ddi => _ddi;
     public PhoneType PhoneType => _phoneType;
-    public string Number => Number;
+    public string Number => _number;
     public string E164 => _e164;
 
     private PhoneNumber(CountryCallingCode ddi, PhoneType phoneType, string number)
@@ -28,9 +28,7 @@ public sealed record PhoneNumber
         var validatedPhoneNumber = ValidatePhoneNumber(ddi, type, inputNumber);
 
         if (validatedPhoneNumber.IsFailure)
-        {
             return Result<PhoneNumber>.Failure(validatedPhoneNumber.Error);
-        }
 
         var phoneNumber = new PhoneNumber(ddi, type, validatedPhoneNumber.Value);
 
@@ -50,7 +48,7 @@ public sealed record PhoneNumber
         {
             return Result<string>.Failure(new Error(
                 Identifier: "PHONE_NULL_EMPTY_WHITE_SPACE",
-                Message: "Phone number cannot be empty."));
+                Message: "Phone number cannot be null, empty or white space."));
         }
 
         // Normalização simples: manter apenas dígitos do número local (sem +, sem DDI)

@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using YaeaY.Account.Domain.ValueObjects.Emails;
 
-namespace YaeaY.Account.Domain.UnitTests.ValueObjects.Emails;
+namespace YaeaY.Account.Domain.UnitTests.ValueObjects.Emails.EmailTests;
 
 public class EmailCreateTests
 {
@@ -21,10 +21,30 @@ public class EmailCreateTests
         // Assert
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Identifier.Should().Be("EMAIL_NULL_EMPTY");
+        result.Error.Identifier.Should().Be("EMAIL_NULL_EMPTY_WHITE_SPACE");
         result.Error.Message.Should().Be("Email is required. " +
                                          "Please provide an address in the format 'example@domain.com'.");
     }
+
+    [Fact]
+    public void Create_WhenEmailIsEmpty_ShouldFailure()
+    {
+        // Arrange
+
+        string emailAddress = string.Empty;
+
+        // Act
+
+        var result = Email.Create(emailAddress);
+
+        // Assert
+
+        result.IsFailure.Should().BeTrue();
+        result.Error.Identifier.Should().Be("EMAIL_NULL_EMPTY_WHITE_SPACE");
+        result.Error.Message.Should().Be("Email is required. " +
+                                         "Please provide an address in the format 'example@domain.com'.");
+    }
+
 
     [Fact]
     public void Create_WhenEmailContainsWhiteSpace_ShouldFailure()
@@ -40,7 +60,7 @@ public class EmailCreateTests
         // Assert
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Identifier.Should().Be("EMAIL_NULL_EMPTY");
+        result.Error.Identifier.Should().Be("EMAIL_NULL_EMPTY_WHITE_SPACE");
         result.Error.Message.Should().Be("Email is required. " +
                                          "Please provide an address in the format 'example@domain.com'.");
     }
