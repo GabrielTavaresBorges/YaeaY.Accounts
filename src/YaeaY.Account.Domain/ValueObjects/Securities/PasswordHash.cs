@@ -4,7 +4,7 @@ namespace YaeaY.Account.Domain.ValueObjects.Securities;
 
 public sealed record PasswordHash
 {
-    private string _passwordHash = string.Empty;
+    private readonly string _passwordHash = string.Empty;
 
     public string Password => _passwordHash;
 

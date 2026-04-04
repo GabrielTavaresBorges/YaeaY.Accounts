@@ -5,7 +5,7 @@ namespace YaeaY.Account.Domain.ValueObjects.Securities;
 
 public sealed record PasswordPlainText
 {
-    private string _password = string.Empty;
+    private readonly string _password = string.Empty;
 
     public string Password => _password;
 
